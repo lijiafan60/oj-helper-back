@@ -1,5 +1,8 @@
 package com.ojhelper.back.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
+    @TableId(type = IdType.AUTO)
     public Integer id;
     public String username;
     public String nickname;
@@ -16,4 +20,6 @@ public class User {
     public String email;
     public String phone;
     public String role;
+    @TableField(exist = false)
+    public String token;
 }

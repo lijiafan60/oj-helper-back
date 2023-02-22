@@ -8,7 +8,7 @@ public enum ResultCode {
     UN_ERR(20232,"unknown error"),
     FAILED(20233,"failed"),
     VALIDATE_ERROR(20234,"validate error"),
-    RESPONSE_PACK_ERROR(20235, "response返回包装失败");
+    RESPONSE_PACK_ERROR(20235, "response pack error");
 
     private int code;
     private String msg;
