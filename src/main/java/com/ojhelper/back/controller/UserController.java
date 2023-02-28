@@ -1,5 +1,6 @@
 package com.ojhelper.back.controller;
 
+import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ojhelper.back.common.Result;
@@ -9,7 +10,9 @@ import com.ojhelper.back.service.Impl.UserService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.exceptions.TooManyResultsException;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -21,8 +24,8 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @RequestMapping("/login")
-    public Result login(String username,String password) {
+    @PostMapping("/login")
+    public Result login(@RequestParam String username,@RequestParam String password) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username",username);
         queryWrapper.eq("password",password);
@@ -37,14 +40,16 @@ public class UserController {
             return new Result(ResultCode.FAILED, null);
         } else {
             StpUtil.login(username);
-            user.setToken(StpUtil.getTokenInfo().getTokenValue());
+            SaTokenInfo saTokenInfo = StpUtil.getTokenInfo();
+            String token = saTokenInfo.getTokenValue();
+            user.setToken(token);
             log.info("用户 {} 登录成功",username);
             return new Result(user);
         }
     }
 
-    @RequestMapping("/register")
-    public Result register(String username,String password) {
+    @PostMapping("/register")
+    public Result register(@RequestParam String username,@RequestParam String password) {
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
