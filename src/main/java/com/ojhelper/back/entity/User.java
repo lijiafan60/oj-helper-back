@@ -19,7 +19,12 @@ public class User {
     public String avatar;
     public String email;
     public String phone;
-    public String role;
     @TableField(exist = false)
     public String token;
+
+    public void removeSensitiveInfo() {
+        this.id = 0;
+        this.username = "";
+        this.password = "";
+    }
 }
