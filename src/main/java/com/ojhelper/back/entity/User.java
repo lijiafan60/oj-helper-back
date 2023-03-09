@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @AllArgsConstructor
@@ -21,6 +22,8 @@ public class User {
     public String phone;
     @TableField(exist = false)
     public String token;
+    @TableField(exist = false)
+    public MultipartFile avatarFile;
 
     public void removeSensitiveInfo() {
         this.id = 0;

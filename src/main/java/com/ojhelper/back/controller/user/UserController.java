@@ -9,12 +9,15 @@ import com.ojhelper.back.common.ResultCode;
 import com.ojhelper.back.controller.user.req.PasswordLoginReq;
 import com.ojhelper.back.entity.User;
 import com.ojhelper.back.service.Impl.UserService;
+import com.ojhelper.back.utils.FileUploadUtils;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 
 @RestController
@@ -49,6 +52,7 @@ public class UserController {
             SaTokenInfo saTokenInfo = StpUtil.getTokenInfo();
             String token = saTokenInfo.getTokenValue();
             user.setToken(token);
+            user.removeSensitiveInfo();
             log.info("用户 {} 登录成功",username);
             return new Result(user);
         }
@@ -80,9 +84,23 @@ public class UserController {
 
 
 
-//    @PostMapping("/changeAvatar")
-//    public Result changeAvatar(@RequestParam("avatar") MultipartFile file) {
-//
-//    }
+    @PostMapping("/uploadAvatar")
+    public Result uploadAvatar(@RequestParam("avatar") MultipartFile file, @RequestHeader("satoken") String token) {
+        String currentDirectory = System.getProperty("user.dir");
+        String avatarDirectory = currentDirectory + "/resources/static/avatars";
+        String fileName = StpUtil.getLoginIdByToken(token).toString();
+        log.info("用户 {} 上传头像, 存储地址为 {}",fileName,avatarDirectory );
+        try {
+            FileUploadUtils.builder()
+                    .setAllowedExtension(new String[] {"jpg","jpeg","png"})
+                    .setMaxSize(10)
+                    .setPathName(avatarDirectory)
+                    .upload(file,fileName);
+            return new Result("上传成功");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new Result(ResultCode.FAILED,"上传失败");
+        }
+    }
 
 }
