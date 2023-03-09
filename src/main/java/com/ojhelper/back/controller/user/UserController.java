@@ -1,5 +1,6 @@
 package com.ojhelper.back.controller.user;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -11,7 +12,9 @@ import com.ojhelper.back.service.Impl.UserService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.exceptions.TooManyResultsException;
+import org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @RestController
@@ -51,6 +54,12 @@ public class UserController {
         }
     }
 
+    @PostMapping("/logout")
+    public void logout() {
+        log.info("用户 {} 退出登录",StpUtil.getTokenInfo().getTokenValue());
+        StpUtil.logout();
+    }
+
     @PostMapping("/register")
     public Result register(@RequestParam String username,@RequestParam String password) {
         User user = new User();
@@ -68,5 +77,12 @@ public class UserController {
             return new Result(ResultCode.FAILED,null);
         }
     }
+
+
+
+//    @PostMapping("/changeAvatar")
+//    public Result changeAvatar(@RequestParam("avatar") MultipartFile file) {
+//
+//    }
 
 }
