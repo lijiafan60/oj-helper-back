@@ -87,7 +87,7 @@ public class UserController {
     @PostMapping("/uploadAvatar")
     public Result uploadAvatar(@RequestParam("avatar") MultipartFile file, @RequestHeader("satoken") String token) {
         String currentDirectory = System.getProperty("user.dir");
-        String avatarDirectory = currentDirectory + "/resources/static/avatars";
+        String avatarDirectory = currentDirectory + "/src/main/resources/static/avatars";
         String fileName = StpUtil.getLoginIdByToken(token).toString();
         log.info("用户 {} 上传头像, 存储地址为 {}",fileName,avatarDirectory );
         try {
