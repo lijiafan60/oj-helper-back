@@ -3,15 +3,12 @@ package com.ojhelper.back.service.Impl;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ojhelper.back.common.Result;
-import com.ojhelper.back.common.ResultCode;
 import com.ojhelper.back.entity.User;
 import com.ojhelper.back.mapper.UserMapper;
 import com.ojhelper.back.service.IUserService;
 import com.ojhelper.back.utils.FileUploadUtils;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

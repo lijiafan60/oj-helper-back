@@ -8,17 +8,11 @@ import com.ojhelper.back.common.ResultCode;
 import com.ojhelper.back.controller.user.req.PasswordLoginReq;
 import com.ojhelper.back.entity.User;
 import com.ojhelper.back.service.Impl.UserService;
-import com.ojhelper.back.utils.FileUploadUtils;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.exceptions.TooManyResultsException;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.IOException;
 
 
 @RestController
