@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,8 +24,6 @@ public class User {
     public String phone;
     @TableField(exist = false)
     public String token;
-    @TableField(exist = false)
-    public MultipartFile avatarFile;
 
     public void removeSensitiveInfo() {
         this.id = 0;
