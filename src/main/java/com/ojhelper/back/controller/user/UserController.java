@@ -87,20 +87,14 @@ public class UserController {
 
     @PostMapping("/uploadAvatar")
     public Result uploadAvatar(@RequestParam("avatar") MultipartFile file, @RequestHeader("satoken") String token) {
-        String currentDirectory = System.getProperty("user.dir");
-        String avatarDirectory = currentDirectory + "/src/main/resources/static/avatars";
-        String fileName = StpUtil.getLoginIdByToken(token).toString();
-        log.info("用户 {} 上传头像, 存储地址为 {}",fileName,avatarDirectory );
-        try {
-            FileUploadUtils.builder()
-                    .setAllowedExtension(new String[] {"jpg","jpeg","png"})
-                    .setMaxSize(10)
-                    .setPathName(avatarDirectory)
-                    .upload(file,fileName);
+        String avatarDirectory = System.getProperty("user.dir") + "/src/main/resources/static/avatars";
+        // 文件名，不带后缀
+        String username = StpUtil.getLoginIdByToken(token).toString();
+        log.info("用户 {} 上传头像, 存储地址为 {}",username,avatarDirectory );
+        if(userService.uploadAvatar(file,username,avatarDirectory)) {
             return new Result("上传成功");
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new Result(ResultCode.FAILED,"上传失败");
+        } else {
+            return new Result("上传失败");
         }
     }
 

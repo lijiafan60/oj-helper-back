@@ -104,16 +104,17 @@ public class FileUploadUtils {
          */
         public String upload(MultipartFile file, String fileName) throws IOException {
             //校验
-            String suffix = preCheck(file);
+            preCheck(file);
             //上传
-            File desc = getAbsoluteFile(PATH_NAME, fileName + "." + suffix);
+            fileName = new StringBuilder().append(fileName).append(".").append(getExtension(file)).toString();
+            File desc = getAbsoluteFile(PATH_NAME, fileName);
             file.transferTo(desc);
-            return fileName + "." + suffix;
+            return fileName;
         }
 
         public String upload(MultipartFile file) throws IOException {
             //校验
-            String suffix = preCheck(file);
+            preCheck(file);
             //上传
             String fileName = extractFilename(file);
             File desc = getAbsoluteFile(PATH_NAME, fileName);
@@ -121,15 +122,14 @@ public class FileUploadUtils {
             return fileName;
         }
 
-        private String preCheck(MultipartFile file) throws IOException{
+        private void preCheck(MultipartFile file) throws IOException{
             if (StringUtils.trimToNull(PATH_NAME) == null)
                 throw new IOException("文件保存路径为空");
-            String extensionFilename = FilenameUtils.getExtension(file.getOriginalFilename());
+            String extensionFilename = getExtension(file);
             if (!ArrayUtils.isEmpty(DEFAULT_ALLOWED_EXTENSION) && !ArrayUtils.contains(DEFAULT_ALLOWED_EXTENSION, extensionFilename))
                 throw new IOException("只允许" + ArrayUtils.toString(DEFAULT_ALLOWED_EXTENSION) + "文件上传");
             if (file.getSize() > DEFAULT_MAX_SIZE) throw new IOException("文件过大");
             if (file.getOriginalFilename().length() > DEFAULT_FILE_NAME_LENGTH) throw new IOException("文件名过长");
-            return extensionFilename;
         }
 
         /**
