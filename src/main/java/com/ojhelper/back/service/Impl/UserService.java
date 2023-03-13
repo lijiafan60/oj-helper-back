@@ -90,4 +90,13 @@ public class UserService implements IUserService {
             return false;
         }
     }
+
+    @Override
+    public String getSchool(String username) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username",username);
+        return userMapper.selectOne(queryWrapper).getSchool();
+    }
+
+
 }

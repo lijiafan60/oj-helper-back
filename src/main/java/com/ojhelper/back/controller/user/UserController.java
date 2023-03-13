@@ -77,8 +77,6 @@ public class UserController {
         }
     }
 
-
-
     @PostMapping("/uploadAvatar")
     public Result uploadAvatar(@RequestParam("avatar") MultipartFile file, @RequestHeader("satoken") String token) {
         String avatarDirectory = System.getProperty("user.dir") + "/src/main/resources/static/avatars";
@@ -90,6 +88,13 @@ public class UserController {
         } else {
             return new Result("上传失败");
         }
+    }
+
+    @GetMapping("/getSchool")
+    public Result getSchool(@RequestHeader("satoken") String token) {
+        String username = StpUtil.getLoginIdByToken(token).toString();
+        String school = userService.getSchool(username);
+        return new Result(school);
     }
 
 }

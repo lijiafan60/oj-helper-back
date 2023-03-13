@@ -6,9 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
 
 @Data
 @AllArgsConstructor
@@ -19,6 +16,7 @@ public class User {
     public String username;
     public String nickname;
     public String password;
+    public String school;
     public String avatar;
     public String email;
     public String phone;
